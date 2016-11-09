@@ -20,14 +20,12 @@ class Box(object):
         self.offset = offset
         self.width = width
         self.height = height
-        self.background = background
         self.container_manager = container_manager
         self.draw_controller = draw_controller
         self.resizable = resizable
         self.callback = callback
         self.callback_params = []
         self.parent = parent
-        self.box_id = Box.increment_bid()
 
         self.controllers = []
         if self.draw_controller is not None:
@@ -66,7 +64,7 @@ class Box(object):
 
     #call this function if you want to call the button's callback
     def callback(self):
-        if callback is not None:
+        if self.callback is not None:
             return self.callback(*self.callback_params)
         print "No callback set for box_id: {}".format(self.box_id)
 
@@ -114,7 +112,3 @@ class Box(object):
         self.resizable = boolean
 
     #PRIVATE...
-    @staticmethod
-    def increment_bid():
-        box_counter += 1
-        return box_counter-1

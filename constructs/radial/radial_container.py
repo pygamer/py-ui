@@ -43,7 +43,7 @@ class RadialContainer(object):
         angle = acos((point[0] - self.origin[0])/magnitude)
         if point[1] < self.origin[1]:
             angle = abs(angle - pi) + pi
-        return  abs(self.bisect_angle - angle) < self.arc_radians / 2 or abs(self.bisect_angle - angle + 2 * pi) < self.arc_radians/2
+        return self if abs(self.bisect_angle - angle) < self.arc_radians / 2 or abs(self.bisect_angle - angle + 2 * pi) < self.arc_radians/2 else None
 
     def update(self, dt):
         for cont in self.controllers:

@@ -1,8 +1,10 @@
 from __future__ import division
-from constructs.radial_container import RadialContainer
-from math import pi, sin, cos, acos, sqrt
+
 import pygame
-from pygame.locals import *
+from math import pi, sin, cos
+
+from constructs.radial.radial_container import RadialContainer
+
 
 class RadialDrawManager(RadialContainer):
 
@@ -63,7 +65,11 @@ class RadialDrawManager(RadialContainer):
 
 
     def draw(self, surface):
+        for cont in self.controllers:
+            cont.draw(surface)
         pygame.draw.polygon(surface, self.active_color, self.pointlist)
     def draw_outline(self, surface):
+        for cont in self.controllers:
+            cont.draw_outline(surface)
         pygame.draw.aalines(surface, (0,0,0), True, self.pointlist, False)
 

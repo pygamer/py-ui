@@ -1,4 +1,4 @@
-from constructs import box
+from constructs.box import box
 
 class Partition(box.Box):
 
@@ -21,7 +21,5 @@ class Partition(box.Box):
                  resizable,
                  callback=None
                  ):
-        super(Box, self).__init__(origin, offset, width, height, containter_manager, draw_manager, resizable, callback)
+        super(box.Box, self).__init__(origin, offset, width, height, containter_manager, draw_manager, resizable, callback)
 
-
-    def 

@@ -1,9 +1,12 @@
+import random
 from math import pi, sqrt
 from pygame.locals import *
-import pygame
-import random
+
 
 class RadialManager(object):
+    """
+    This class is used for creating a full circle radial menu.
+    """
 
     def __init__(self, origin, offset, radius, active_radius, randomize_radius=False, random_scale=.5):
         self.radial_containers = []
@@ -43,18 +46,16 @@ class RadialManager(object):
             for cont in self.radial_containers:
                 if cont.collide_point(event.pos):
                     cont.hover()
-                else:
-                    cont.unhover()
-            return True
+                    return True
         elif event.type == MOUSEBUTTONDOWN and event.button == 1:
             for cont in self.radial_containers:
                 if cont.collide_point(event.pos):
                     cont.press_down()
-            return True
+                    return True
         elif event.type == MOUSEBUTTONUP and event.button == 1:
             for cont in self.radial_containers:
                 cont.press_up()
-            return True
+                return True
         return False
 
     def update(self, dt):
@@ -86,10 +87,14 @@ class RadialManager(object):
             cont.draw_outline(surface)
 
 if __name__ == "__main__":
-    import constructs.radial_container as rc
-    import radial_draw_manager as rdm
-    rm = RadialManager((0, 0), (300, 300), 100, 150)
+    import constructs.radial.radial_container as rc
+    from managers.draw_managers import radial_draw_manager as rdm
+    import pygame
+    import pygame.locals
+
+    rm = RadialManager((0, 0), (300, 300), 100, 110)
     total_rads = 6
+    i = 0
     for x in range(total_rads):
         color = ((155/total_rads) * x + 100, (255/(total_rads*2)) * x, (255/(total_rads*3)) * x)
         color = list(color)
@@ -97,10 +102,10 @@ if __name__ == "__main__":
         color = tuple(color)
         rad_draw_mgr = rdm.RadialDrawManager(background_color=color, hover_color=color)
         rad_c = rc.RadialContainer(draw_controller=rad_draw_mgr)
+        rad_c.id = i
         rm.add_container(rad_c)
+        i += 1
     rm.build()
-    import pygame
-    import pygame.locals
     pygame.init()
     s = pygame.display.set_mode((800,600))
     s.fill((255, 255, 255))
