@@ -19,6 +19,10 @@ class ConstructGenerator(object):
 
     @staticmethod
     def create_default_partition(origin=(0, 0), offset=(0, 0), width=100, height=100, containter_manager=None, draw_manager=None, resizable=None):
+        if containter_manager is not None:
+            containter_manager = ContainerManager()
+        if draw_manager is not None:
+            draw_manager = BoxDrawManager(origin, offset, width, height, background_color=(200, 200, 200))
         return Partition(origin, offset, width, height, containter_manager, draw_manager, resizable)
 
 
@@ -34,7 +38,19 @@ if __name__ == "__main__":
     import pygame
     import pygame.locals
     b = ConstructGenerator.create_default_box(width=500, height=500)
-    b.add_container(ConstructGenerator.create_default_label(offset=(100, 100), text="Hello"))
+
+    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
     b.build()
     pygame.init()
     s = pygame.display.set_mode((800, 600))

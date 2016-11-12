@@ -38,6 +38,9 @@ class BoxDrawManager(Box):
         self.title_bar_border = title_bar_border
         self.build()
 
+    def update(self, dt):
+        pass
+
     def build(self):
         self.surface = pygame.Surface((self.width, self.height))
         self.rect = pygame.Rect((self.origin[0] + self.offset[0], self.origin[1] + self.offset[1]), (self.width, self.height))
@@ -47,9 +50,9 @@ class BoxDrawManager(Box):
         if self.fill_background:
             self.surface.fill(self.background_color)
         if self.title_bar:
-            pygame.draw.rect(self.surface, self.title_color, pygame.Rect(self.origin, (self.width, self.title_bar_height)))
+            pygame.draw.rect(self.surface, self.title_color, pygame.Rect((self.origin[0], self.origin[1] - self.title_bar_height), (self.width, self.title_bar_height)))
             if self.title_bar_border:
-                pygame.draw.rect(self.surface, self.border_color, pygame.Rect(self.origin, (self.width, self.title_bar_height)), self.title_border_width)
+                pygame.draw.rect(self.surface, self.border_color, pygame.Rect((self.origin[0], self.origin[1] - self.title_bar_height), (self.width, self.title_bar_height)), self.title_border_width)
         if self.bordered:
             pygame.draw.rect(self.surface, self.border_color, pygame.Rect((0, 0), (self.width , self.height)), self.border_width)
 

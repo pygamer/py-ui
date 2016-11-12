@@ -33,11 +33,13 @@ class Box(object):
             self.controllers.append(self.draw_controller)
         if self.container_manager is not None:
             self.controllers.append(self.container_manager)
+            print self.container_manager.containers
         for cont in self.controllers:
             cont.set_origin(origin)
             cont.set_offset(offset)
             cont.set_width(width)
             cont.set_height(height)
+            print "cont: ", cont, cont.width, cont.height
             cont.set_resizable(resizable)
 
 
@@ -72,7 +74,6 @@ class Box(object):
     def callback(self):
         if self.callback is not None:
             return self.callback(*self.callback_params)
-        print "No callback set for box_id: {}".format(self.box_id)
 
     #This function determines whether the point given lies within the box's constraints
     def collide_point(self, point):
@@ -96,16 +97,14 @@ class Box(object):
         self.offset = offset
 
     def set_width(self, width):
-        if self.resizable:
-            for cont in self.controllers:
-                cont.set_width(width)
-            self.width = width
+        for cont in self.controllers:
+            cont.set_width(width)
+        self.width = width
 
     def set_height(self, height):
-        if self.resizable:
-            for cont in self.controllers:
-                cont.set_height(height)
-            self.height = height
+        for cont in self.controllers:
+            cont.set_height(height)
+        self.height = height
 
     def set_parent(self, parent):
         for cont in self.controllers:
