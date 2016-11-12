@@ -13,12 +13,6 @@ class BoxDrawManager(Box):
                  border_width=5,
                  fill_background=True,
                  background_image=None,
-                 title_bar=True,
-                 title_bar_border=True,
-                 title_bar_height = 21,
-                 title_text="This is a title",
-                 title_color=(150, 150, 150),
-                 title_border_width=3,
                  alpha=255):
         Box.__init__(self, origin, offset, width, height)
         self.surface = pygame.Surface((self.width, self.height))
@@ -30,12 +24,6 @@ class BoxDrawManager(Box):
         self.border_width = border_width
         self.alpha = alpha
         self.background_image = background_image
-        self.title_bar = title_bar
-        self.title_text = title_text
-        self.title_color = title_color
-        self.title_border_width = title_border_width
-        self.title_bar_height = title_bar_height
-        self.title_bar_border = title_bar_border
         self.build()
 
     def update(self, dt):
@@ -43,16 +31,12 @@ class BoxDrawManager(Box):
 
     def build(self):
         self.surface = pygame.Surface((self.width, self.height))
-        self.rect = pygame.Rect((self.origin[0] + self.offset[0], self.origin[1] + self.offset[1]), (self.width, self.height))
+        self.rect = pygame.Rect(self.get_real_origin(), (self.width, self.height))
         if self.background_image is not None:
             self.surface.blit(self.background_image, pygame.Rect((0, 0), (0, 0)))
             return
         if self.fill_background:
             self.surface.fill(self.background_color)
-        if self.title_bar:
-            pygame.draw.rect(self.surface, self.title_color, pygame.Rect((self.origin[0], self.origin[1] - self.title_bar_height), (self.width, self.title_bar_height)))
-            if self.title_bar_border:
-                pygame.draw.rect(self.surface, self.border_color, pygame.Rect((self.origin[0], self.origin[1] - self.title_bar_height), (self.width, self.title_bar_height)), self.title_border_width)
         if self.bordered:
             pygame.draw.rect(self.surface, self.border_color, pygame.Rect((0, 0), (self.width , self.height)), self.border_width)
 

@@ -23,7 +23,7 @@ class Box(object):
         self.container_manager = container_manager
         self.draw_controller = draw_manager
         self.resizable = resizable
-        self.callback = callback
+        self.callback_func = callback
         self.callback_params = []
         self.parent = parent
 
@@ -33,13 +33,11 @@ class Box(object):
             self.controllers.append(self.draw_controller)
         if self.container_manager is not None:
             self.controllers.append(self.container_manager)
-            print self.container_manager.containers
         for cont in self.controllers:
             cont.set_origin(origin)
             cont.set_offset(offset)
             cont.set_width(width)
             cont.set_height(height)
-            print "cont: ", cont, cont.width, cont.height
             cont.set_resizable(resizable)
 
 
@@ -72,8 +70,8 @@ class Box(object):
 
     #call this function if you want to call the button's callback
     def callback(self):
-        if self.callback is not None:
-            return self.callback(*self.callback_params)
+        if self.callback_func is not None:
+            return self.callback_func(*self.callback_params)
 
     #This function determines whether the point given lies within the box's constraints
     def collide_point(self, point):

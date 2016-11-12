@@ -1,16 +1,15 @@
 from constructs.box.box import Box
-from managers.container_managers.manager_types.grid import Grid
+from managers.container_managers.manager_types.free_form import Freeform
 
 
 class ContainerManager(Box):
 
-    def __init__(self, manager_type=Grid()):
+    def __init__(self, manager_type=Freeform()):
         Box.__init__(self)
         self.containers = []
         self.type = manager_type
 
     def build_layout(self):
-        print self.width, self.height
         self.type.build(self, self.containers)
 
     def build(self):
