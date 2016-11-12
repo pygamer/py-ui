@@ -24,7 +24,9 @@ Radial types do no have container managers, and can only have one child. Childre
 All constructs have several methods in common:
 
 build() - Calls the build() method on all managers attached to this construct
+
 update() - Calls the update() method on all managers attached to this construct
+
 draw() - Calls the draw() method on all managers attached to this construct
 
 #Managers
@@ -34,6 +36,7 @@ Managers have a few common methods that are called when the same method is calle
 e.g if you call the method Box.draw(), this calls the draw() function on that box's container manager and draw manager.
 
 These common methods are:
+
 build() - In the case of container managers, this calls build() on all child containers. In the case of draw managers this creates and populates a pygame.Surface object for use in the draw() method.
 
 update(dt) - In the case of container managers this calls update() on all child containers. In the case of draw managers this method handles color changes, graphics changes, and positional movement, and is overloadable to do whatever you like. returns False if there doesnt need to be a redraw, True if there does need to be a redraw. Takes a parameter dt for the time since last frame.
@@ -49,9 +52,13 @@ You can access all of the currently working box-like constructs through the cons
 Each box construct has a few parameters you can change:
 
 origin - The position of the parent construct - (x, y) tuple
+
 offset - The position of this element, relative to the given origin - (x, y) tuple
+
 width - The width of this element - Int
+
 height - The height of this element - Int
+
 draw_manager - The class that actually draws using pygame libraries. This class can be overloaded to use different graphics libraries - BoxDrawManager object
 
 Draw managers MUST inherit the class-type are drawing. e.g a BoxDrawManager implements the Box class.
@@ -59,7 +66,11 @@ Draw managers MUST inherit the class-type are drawing. e.g a BoxDrawManager impl
 The Box type has some other special parameters you can give it.
 
 container_manager - The class managing this container's children. This can be None for a container with no children and can be added later - ContainerManager object
+
 resizable - A boolean declaring that this Box is resizable. Currently unused - Bool
+
 parent - A reference to the parent container, currently unsued - Box object
+
 callback - A reference to a function that is called when Box.callback() is called - function reference
+
 callback_params - A list of parameters that are given to the callback function when it is called, in order - List
