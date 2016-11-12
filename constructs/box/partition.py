@@ -1,6 +1,7 @@
-from constructs.box import box
+from constructs.box.box import Box
 
-class Partition(box.Box):
+
+class Partition(Box):
 
     """
     This class is used for creating a partition of the screen that can
@@ -18,8 +19,6 @@ class Partition(box.Box):
                  height,
                  containter_manager,
                  draw_manager,
-                 resizable,
-                 callback=None
-                 ):
-        super(box.Box, self).__init__(origin, offset, width, height, containter_manager, draw_manager, resizable, callback)
+                 resizable):
+        super(Partition, self).__init__(origin, offset, width, height, containter_manager, draw_manager, resizable)
 

@@ -1,27 +1,33 @@
-
-class ManagerType(object):
-
-
-    class GRID(object):
-
-        max__container_width = 100
-        max_container_height = 100
-        min_container_width = 50
-        min_container_height = 50
-
-        def __init__(self,
-                     max_container_width=100,
-                     max_container_height=100,
-                     min_container_width=50,
-                     min_container_height=50):
-            self.max_container_height = max_container_height
-            self.max_container_width = max_container_width
-            self.min_container_width = min_container_width
-            self.min_container_height = min_container_height
-
-        def build(self, containers):
-            grid_dimensions = ceil(sqrt(len(containers)))
+from math import ceil, sqrt, floor
 
 
-        def __eq__(self, other):
-            return isinstance(other, ManagerType.GRID)
+class GRID(object):
+
+    def __init__(self, cols=1):
+        self.master = None
+        self.cols = cols
+
+
+    def set_master(self, master):
+        self.master = master
+
+
+    def build(self, containers):
+        if self.master is not None:
+            container_width = self.master.width / self.cols
+            container_height = self.master.height / ceil(len(containers) / self.cols)
+            origin = self.master.origin + self.master.offset
+            i = 0
+            row = 0
+            while i < len(containers):
+                for c in range(self.cols):
+                    x = c * container_width
+                    y = row * container_height
+                    containers[i].set_origin((x, y))
+                    containers[i].set_height(container_height)
+                    containers[i].set_width(container_width)
+                    i += 1
+                row += 1
+
+    def __eq__(self, other):
+        return isinstance(other, GRID)

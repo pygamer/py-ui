@@ -15,19 +15,20 @@ class Box(object):
 
     box_counter = 0
 
-    def __init__(self, origin=(0, 0), offset=(0, 0), width=100, height=100, container_manager=None, draw_controller=None, resizable=False, parent=None, callback=None, callback_params=[]):
+    def __init__(self, origin=(0, 0), offset=(0, 0), width=100, height=100, container_manager=None, draw_manager=None, resizable=False, parent=None, callback=None, callback_params=[]):
         self.origin = origin
         self.offset = offset
         self.width = width
         self.height = height
         self.container_manager = container_manager
-        self.draw_controller = draw_controller
+        self.draw_controller = draw_manager
         self.resizable = resizable
         self.callback = callback
         self.callback_params = []
         self.parent = parent
 
         self.controllers = []
+        # DRAW CONTROLLER MUST BE FIRST IN self.controllers (if it exists at all)!!!
         if self.draw_controller is not None:
             self.controllers.append(self.draw_controller)
         if self.container_manager is not None:
@@ -37,6 +38,7 @@ class Box(object):
             cont.set_offset(offset)
             cont.set_width(width)
             cont.set_height(height)
+            cont.set_resizable(resizable)
 
 
     # Call this function if you want to resize the box
@@ -47,15 +49,19 @@ class Box(object):
         self.width = width
         self.height = height
 
+    def build(self):
+        for cont in self.controllers:
+            cont.build()
+
 
     #Used to tack a container object onto the box
     def add_container(self, container):
         container.set_parent(self)
         for cont in self.controllers:
             cont.add_container(container)
-        else:
-            print "No container_manager on box_id: {}".format(self.box_id)
 
+    def get_real_origin(self):
+        return self.origin[0] + self.offset[0], self.origin[1] + self.offset[1]
 
     #This function should be called automatically by some manager somewhere idk
     def update(self, dt):

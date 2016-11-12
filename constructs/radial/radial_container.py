@@ -1,8 +1,18 @@
-from math import pi, sqrt, acos, asin
+from math import pi, sqrt, acos, cos, sin
 
 class RadialContainer(object):
 
-    def __init__(self, origin=(0, 0), bisect_angle=0, radius=50, arc_radians=2*pi, width=50, active_radius=60, callback=None, callback_params=[], container_manager=None, draw_controller=None):
+    def __init__(self,
+                 origin=(0, 0),
+                 bisect_angle=0,
+                 radius=50,
+                 arc_radians=2*pi,
+                 width=50,
+                 active_radius=60,
+                 callback=None,
+                 callback_params=[],
+                 container_manager=None,
+                 draw_controller=None):
         self.origin = origin
         self.bisect_angle = bisect_angle
         self.radius = radius
@@ -16,12 +26,13 @@ class RadialContainer(object):
         self.inactive_radius = radius
         self.clicked = False
         self.hovered = False
+        self.center = self.origin
 
         self.controllers = []
-        if self.draw_controller is not None:
-            self.controllers.append(self.draw_controller)
         if self.container_manager is not None:
             self.controllers.append(self.controllers)
+        if self.draw_controller is not None:
+            self.controllers.append(self.draw_controller)
         for cont in self.controllers:
             cont.set_origin(self.origin)
             cont.set_bisect_angle(self.bisect_angle)
@@ -32,6 +43,14 @@ class RadialContainer(object):
     def build(self):
         for cont in self.controllers:
             cont.build()
+        self.build_center()
+
+    def build_center(self):
+        x_col_vec = [cos(self.bisect_angle), -sin(self.bisect_angle)]
+        y_col_vec = [sin(self.bisect_angle), cos(self.bisect_angle)]
+        x = (x_col_vec[0] * (.5 * self.radius)) + self.origin[0]
+        y = (y_col_vec[0] * (.5 * self.radius)) + self.origin[1]
+        self.center = x, y
 
     def callback(self):
         return self.callback(*self.callback_params)
@@ -39,7 +58,7 @@ class RadialContainer(object):
     def collide_point(self, point):
         magnitude = sqrt((point[0] - self.origin[0])**2 + (point[1] - self.origin[1])**2)
         if magnitude > self.radius or magnitude <= 0:
-            return False
+            return None
         angle = acos((point[0] - self.origin[0])/magnitude)
         if point[1] < self.origin[1]:
             angle = abs(angle - pi) + pi
@@ -110,4 +129,3 @@ class RadialContainer(object):
     def draw_outline(self, surface):
         for cont in self.controllers:
             cont.draw_outline(surface)
-
