@@ -9,7 +9,7 @@ from fonts.font_loader import FontLoader
 class ConstructGenerator(object):
 
     @staticmethod
-    def create_default_box(origin=(0, 0), offset=(0, 0), width=100, height=100, container_manager=None, draw_manager=None, resizable=False, parent=None, callback=None, callback_params=[], events=[]):
+    def create_box(origin=(0, 0), offset=(0, 0), width=100, height=100, container_manager=None, draw_manager=None, resizable=False, parent=None, callback=None, callback_params=[], events=[]):
         if draw_manager is None:
             draw_manager = BoxDrawManager(origin, offset, width, height, background_color=(200, 200, 200))
         if container_manager is None:
@@ -18,16 +18,16 @@ class ConstructGenerator(object):
 
 
     @staticmethod
-    def create_default_partition(origin=(0, 0), offset=(0, 0), width=100, height=100, containter_manager=None, draw_manager=None, resizable=None):
-        if containter_manager is not None:
+    def create_partition(origin=(0, 0), offset=(0, 0), width=100, height=100, containter_manager=None, draw_manager=None, resizable=False):
+        if containter_manager is None:
             containter_manager = ContainerManager()
-        if draw_manager is not None:
+        if draw_manager is None:
             draw_manager = BoxDrawManager(origin, offset, width, height, background_color=(200, 200, 200))
         return Partition(origin, offset, width, height, containter_manager, draw_manager, resizable)
 
 
     @staticmethod
-    def create_default_label(origin=(0, 0), offset=(0, 0), width=100, height=100, text="", uifont=None, draw_manager=None):
+    def create_label(origin=(0, 0), offset=(0, 0), width=100, height=100, text="", uifont=None, draw_manager=None):
         if uifont is None:
             uifont = FontLoader().get_default_font()
         if draw_manager is None:
@@ -43,19 +43,19 @@ if __name__ == "__main__":
     c = ContainerManager(Horizontal())
     d = BoxDrawManager()
 
-    b = ConstructGenerator.create_default_box(origin=(50, 50), width=500, height=500, container_manager=c)
+    b = ConstructGenerator.create_box(origin=(50, 50), width=500, height=500, container_manager=c)
     ce = ClickEvent(down_callback=b.press_down, up_callback=b.press_up, collide_func=b.collide_point)
     me = MouseMotionEvent(hover_callback=b.hover_over, off_callback=b.hover_off, collide_func=b.collide_point)
     b.events = [ce, me]
 
-    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
-    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
-    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
-    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
-    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
-    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
-    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
-    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_label(text="Gooby"))
     b.build()
     pygame.init()
     s = pygame.display.set_mode((800, 600))
