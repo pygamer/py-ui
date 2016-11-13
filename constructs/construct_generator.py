@@ -37,14 +37,19 @@ class ConstructGenerator(object):
 if __name__ == "__main__":
     import pygame
     import pygame.locals
-    from managers.container_managers.manager_types.flex_grid import FlexGrid
-    c = ContainerManager(FlexGrid(cols=2))
+    from managers.container_managers.manager_types.horizontal import Horizontal
+    c = ContainerManager(Horizontal())
     d = BoxDrawManager()
     b = ConstructGenerator.create_default_box(origin=(50, 50), width=500, height=500, container_manager=c)
 
     b.add_container(ConstructGenerator.create_default_label(text="Hello"))
     b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
     b.add_container(ConstructGenerator.create_default_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
+    b.add_container(ConstructGenerator.create_default_label(text="Pls"))
+    b.add_container(ConstructGenerator.create_default_label(text="Hello"))
+    b.add_container(ConstructGenerator.create_default_label(text="Gooby"))
     b.build()
     pygame.init()
     s = pygame.display.set_mode((800, 600))

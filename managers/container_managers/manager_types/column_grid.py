@@ -3,7 +3,7 @@ from math import ceil, sqrt, floor
 from managers.container_managers.manager_types.manager_type import ManagerTypeInterface
 
 
-class FlexGrid(ManagerTypeInterface):
+class ColumnGrid(ManagerTypeInterface):
     """
     This manager type is for organizing a layout of the children in grid form.
 
@@ -31,10 +31,11 @@ class FlexGrid(ManagerTypeInterface):
                     row += 1
                 x = (i % self.cols) * container_width
                 y = row * container_height
-                containers[i].set_origin((master.get_real_origin()[0] + x, master.get_real_origin()[1] + y))
+                containers[i].set_offset((x, y))
+                containers[i].set_origin(master.get_real_origin())
                 containers[i].set_height(container_height)
                 containers[i].set_width(container_width)
                 i += 1
 
     def __eq__(self, other):
-        return isinstance(other, FlexGrid)
+        return isinstance(other, ColumnGrid)
