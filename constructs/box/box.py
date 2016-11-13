@@ -15,7 +15,7 @@ class Box(object):
 
     box_counter = 0
 
-    def __init__(self, origin=(0, 0), offset=(0, 0), width=100, height=100, container_manager=None, draw_manager=None, resizable=False, parent=None, callback=None, callback_params=[]):
+    def __init__(self, origin=(0, 0), offset=(0, 0), width=100, height=100, container_manager=None, draw_manager=None, resizable=False, parent=None, callback=None, callback_params=[], events=[]):
         self.origin = origin
         self.offset = offset
         self.width = width
@@ -26,6 +26,7 @@ class Box(object):
         self.callback_func = callback
         self.callback_params = []
         self.parent = parent
+        self.events = events
 
         self.controllers = []
         # DRAW CONTROLLER MUST BE FIRST IN self.controllers (if it exists at all)!!!
@@ -49,10 +50,26 @@ class Box(object):
         self.width = width
         self.height = height
 
+    def check_event(self, event):
+        for cont in self.controllers:
+            ret = cont.check_event(event)
+            if ret:
+                return ret
+        for ev in self.events:
+            ret = ev.check_event(event)
+            if ret:
+                return ret
+
     def build(self):
         for cont in self.controllers:
             cont.build()
 
+    def get_box_point(self, point):
+        for cont in self.controllers:
+            box = cont.get_box_point(point)
+            if box is not None:
+                return box
+        return self if self.collide_point(point) else None
 
     #Used to tack a container object onto the box
     def add_container(self, container):
@@ -76,12 +93,27 @@ class Box(object):
     #This function determines whether the point given lies within the box's constraints
     def collide_point(self, point):
         x, y = point
-        return x >= self.origin[0] and x <= self.origin[0] + self.offset[0] and y >= self.origin[1] and y <= self.origin[1] + self.offset[1]
+        return x >= self.origin[0] + self.offset[0] and x <= self.origin[0] + self.offset[0] + self.width and y >= self.origin[1] + self.offset[1] and y <= self.origin[1] + self.offset[1] + self.height
 
     def draw(self, surface):
         for cont in self.controllers:
             cont.draw(surface)
 
+    def hover_over(self):
+        self.draw_controller.hover_over()
+        return True
+
+    def hover_off(self):
+        self.draw_controller.hover_off()
+        return True
+
+    def press_down(self):
+        self.draw_controller.press_down()
+        return True
+
+    def press_up(self):
+        self.draw_controller.press_up()
+        return True
 
     #SETTERS
     def set_origin(self, origin):

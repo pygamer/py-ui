@@ -12,6 +12,13 @@ class ContainerManager(Box):
     def build_layout(self):
         self.type.build(self, self.containers)
 
+    def get_box_point(self, point):
+        for cont in self.containers:
+            box = cont.get_box_point(point)
+            if box is not None:
+                return box
+
+
     def build(self):
         self.build_layout()
         for cont in self.containers:
