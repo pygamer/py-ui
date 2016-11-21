@@ -51,14 +51,16 @@ class Box(object):
         self.height = height
 
     def check_event(self, event):
+        final_ret = False
         for cont in self.controllers:
             ret = cont.check_event(event)
             if ret:
-                return ret
+                final_ret = True
         for ev in self.events:
             ret = ev.check_event(event)
             if ret:
-                return ret
+                final_ret = True
+        return final_ret
 
     def build(self):
         for cont in self.controllers:
@@ -100,20 +102,16 @@ class Box(object):
             cont.draw(surface)
 
     def hover_over(self):
-        self.draw_controller.hover_over()
-        return True
+        return self.draw_controller.hover_over()
 
     def hover_off(self):
-        self.draw_controller.hover_off()
-        return True
+        return self.draw_controller.hover_off()
 
     def press_down(self):
-        self.draw_controller.press_down()
-        return True
+        return self.draw_controller.press_down()
 
     def press_up(self):
-        self.draw_controller.press_up()
-        return True
+        return self.draw_controller.press_up()
 
     #SETTERS
     def set_origin(self, origin):
@@ -145,5 +143,9 @@ class Box(object):
         for cont in self.controllers:
             cont.set_resizable(boolean)
         self.resizable = boolean
+
+    def set_bordered(self, bool):
+        if self.draw_controller is not None:
+            self.draw_controller.set_bordered(bool)
 
     #PRIVATE...

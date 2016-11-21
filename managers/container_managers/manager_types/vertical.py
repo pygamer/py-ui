@@ -1,12 +1,12 @@
 from __future__ import division
-from math import floor
+from math import floor, ceil
 from manager_type import ManagerTypeInterface
 
 class Vertical(ManagerTypeInterface):
 
     def build(self, master, containers):
         width = master.width
-        height = floor(master.height / len(containers))
+        height = ceil(master.height / len(containers))
         for i, cont in enumerate(containers):
             cont.set_width(width)
             cont.set_height(height)

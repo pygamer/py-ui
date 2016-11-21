@@ -46,17 +46,16 @@ class RadialManager(object):
             for cont in self.radial_containers:
                 if cont.collide_point(event.pos):
                     cont.hover()
-                    return True
+                else:
+                    cont.unhover()
         elif event.type == MOUSEBUTTONDOWN and event.button == 1:
             for cont in self.radial_containers:
                 if cont.collide_point(event.pos):
                     cont.press_down()
-                    return True
         elif event.type == MOUSEBUTTONUP and event.button == 1:
             for cont in self.radial_containers:
                 cont.press_up()
-                return True
-        return False
+        return True
 
     def update(self, dt):
         for cont in self.radial_containers:

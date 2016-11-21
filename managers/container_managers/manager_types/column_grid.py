@@ -20,6 +20,8 @@ class ColumnGrid(ManagerTypeInterface):
 
 
     def build(self, master, containers):
+        if len(containers) < self.cols:
+            self.cols = len(containers)
         if master is not None:
             container_width = master.width / self.cols
             container_height = master.height / ceil(len(containers) / self.cols)

@@ -1,11 +1,14 @@
 from constructs.box.box import Box
 from managers.container_managers.manager_types.free_form import Freeform
+from managers.container_managers.manager_types.column_grid import ColumnGrid
 
 
 class ContainerManager(Box):
 
-    def __init__(self, manager_type=Freeform()):
+    def __init__(self, manager_type=None):
         Box.__init__(self)
+        if manager_type is None:
+            manager_type = ColumnGrid()
         self.containers = []
         self.type = manager_type
 
@@ -17,6 +20,14 @@ class ContainerManager(Box):
             box = cont.get_box_point(point)
             if box is not None:
                 return box
+
+    def check_event(self, event):
+        final_ret = False
+        for cont in self.containers:
+            res = cont.check_event(event)
+            if res:
+                final_ret = True
+        return final_ret
 
 
     def build(self):

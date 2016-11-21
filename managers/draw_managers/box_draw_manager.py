@@ -39,20 +39,31 @@ class BoxDrawManager(Box):
         pass
 
     def press_down(self):
+        ret = not self.clicked
         self.clicked = True
+        return ret
 
     def press_up(self):
+        ret = self.clicked
         self.clicked = False
+        return ret
 
     def hover_over(self):
+        ret = not self.hovered
         self.hovered = True
+        return ret
 
     def hover_off(self):
+        ret = self.hovered
         self.hovered = False
+        return ret
 
     def reset(self):
         self.clicked = False
         self.hovered = False
+
+    def check_event(self, event):
+        pass
 
     def build(self):
         self.surface = pygame.Surface((self.width, self.height))
@@ -69,6 +80,10 @@ class BoxDrawManager(Box):
             self.surface.fill(bg_color)
         if self.bordered:
             pygame.draw.rect(self.surface, self.border_color, pygame.Rect((0, 0), (self.width , self.height)), self.border_width)
+
+    def set_bordered(self, bool):
+        self.bordered = bool
+        self.build()
 
     def draw(self, surface):
         surface.blit(self.surface, self.rect)

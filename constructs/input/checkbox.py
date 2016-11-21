@@ -1,6 +1,4 @@
 from constructs.box.box import Box
-from managers.draw_managers.input.checkbox_draw_manager import CheckboxDrawManager
-
 
 class Checkbox(Box):
 
@@ -12,12 +10,12 @@ class Checkbox(Box):
     def add_container(self, container):
         pass
 
-    def check(self):
-        for cont in self.controllers:
-            self.draw_controller.check()
-        self.checked = True
+    def press_down(self):
+        self.checked = not self.checked
+        return self.draw_controller.check()
 
-    def uncheck(self):
-        for cont in self.controllers:
-            self.draw_controller.uncheck()
-        self.checked = False
+
+    def press_up(self):
+        return False
+
+
